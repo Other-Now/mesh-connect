@@ -1,0 +1,1 @@
+{"cmd":"eval","correct":100000,"total":100000,"by_kind":{"1sheet":[10085,10085],"2sheet":[84178,84178],"3sheet":[5737,5737]},"max_projection_error":1.82e-12,"centroid_baseline":{"sheet_hits":185567,"wrong_element":30229},"first_wrong":[]}

@@ -1,0 +1,10 @@
+build*/
+__pycache__/
+*.pyc
+/work/
+*.inp
+*.dat
+*.frd
+*.sta
+*.cvg
+spooles.out

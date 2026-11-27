@@ -1,0 +1,4 @@
+{"note":"eval on gen --parts 4 --h 5 --welds 3000 --seed 11, BEFORE the fix (absolute 1e-14 Newton step tolerance in model coordinates)",
+ "eval":{"cmd":"eval","correct":1841,"total":3000,"by_kind":{"1sheet":[235,286],"2sheet":[1511,2495],"3sheet":[95,219]},"max_projection_error":1.09,"centroid_baseline":{"sheet_hits":5647,"wrong_element":1866},"first_wrong":[3,4,8,13,17,23,26,28,29,30]},
+ "connect":{"cmd":"connect","welds":3000,"ok":2311,"three_sheet":147,"one_sheet":666,"no_sheet":23,"off_edge_hits":694,"components_before":7,"components_after":2,"floating_pids":[201]},
+ "example":"weld (977.484, 458.518, 0.5) lies inside quad 18396 of part 1, but project_quad returned an edge point 1.05 mm away"}

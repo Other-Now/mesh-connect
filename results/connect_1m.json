@@ -1,0 +1,1 @@
+{"cmd":"connect","welds":100000,"ok":89915,"three_sheet":5737,"one_sheet":10085,"no_sheet":0,"off_edge_hits":0,"components_before":15,"components_after":4,"floating_pids":[201,203,205],"threads":4,"secs":{"read":1.325,"bvh":2.101,"connect":0.197}}

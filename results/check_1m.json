@@ -1,0 +1,1 @@
+{"cmd":"check","nodes":818890,"elems":1203735,"quads":422315,"trias":781420,"skipped_cards":0,"components":15,"edges":2022610,"free_edges":11700,"nonmanifold_edges":0,"orphan_nodes":0,"coincident_pairs":0,"merge_tol":0.001,"components_if_merged":15,"secs":{"read":1.693,"csr":0.034,"components":0.041,"edges":0.211,"coincident":0.918}}

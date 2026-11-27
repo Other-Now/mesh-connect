@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain + CalculiX
+        run: sudo apt-get update && sudo apt-get install -y ninja-build calculix-ccx
+      - name: Build (GCC, OpenMP)
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+      - name: Unit + integration tests
+        run: ctest --test-dir build --output-on-failure
+      - name: Python binding (ctypes -> libmeshconnect.so)
+        run: python3 python/test_meshconnect.py
+      - name: Labelled assembly (3000 welds) must be 100% correct
+        run: |
+          build/mesh-connect gen work/small --parts 4 --h 5 --welds 3000 --seed 11
+          build/mesh-connect eval work/small/mesh.bdf work/small/labels.csv
+          build/mesh-connect check work/small/mesh.bdf
+          build/mesh-connect connect work/small/mesh.bdf work/small/welds.csv --out work/small/cwelds.bdf
+      - name: BVH == brute force, identical output at 1-4 threads
+        run: |
+          build/mesh-connect gen work/mid --parts 6 --h 3 --welds 20000 --seed 3
+          build/mesh-connect bench work/mid/mesh.bdf work/mid/welds.csv --threads 1,2,4 --reps 3 --brute 100 --ab-reps 3
+      - name: CalculiX lap joint - connectors carry the full load
+        run: LAP_SCALES=1,2 python3 validate/run_lap.py build/mesh-connect ccx work/lap work/lap.json
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (MSVC, OpenMP 2.0, DLL)
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          cmake --build build --config Release
+      - name: Unit + integration tests
+        run: ctest --test-dir build -C Release --output-on-failure
+      - name: Python binding (ctypes -> meshconnect.dll)
+        run: python python/test_meshconnect.py
+      - name: Labelled assembly on Windows
+        run: |
+          build/Release/mesh-connect.exe gen work/small --parts 4 --h 5 --welds 3000 --seed 11
+          build/Release/mesh-connect.exe eval work/small/mesh.bdf work/small/labels.csv
